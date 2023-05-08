@@ -23,6 +23,7 @@ func main() {
 	metrics.Use(router)
 
 	router.GET("/", Home)
+	router.GET("/healthz", healthz)
 
 	router.Run()
 
@@ -50,5 +51,11 @@ func Home(c *gin.Context) {
 	c.HTML(http.StatusOK, "home.html", gin.H{
 		"title": title,
 		"color": color,
+	})
+}
+
+func healthz(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "ok",
 	})
 }
