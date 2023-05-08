@@ -29,7 +29,7 @@ spec:
                 - colors
             topologyKey: kubernetes.io/hostname
       containers:
-      - image: IMAGE_STUB
+      - image: ghcr.io/vrutkovs/color-demo:latest
         name: colors
         env:
         - name: COLOR
