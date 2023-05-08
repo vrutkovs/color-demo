@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/penglongli/gin-metrics/ginmetrics"
 )
 
 func main() {
@@ -15,6 +16,11 @@ func main() {
 	router.Use(GinContextToContextMiddleware())
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*")
+
+	metrics := ginmetrics.GetMonitor()
+	metrics.SetSlowTime(5)
+	metrics.SetDuration([]float64{0.1, 0.3, 1.2, 5, 10})
+	metrics.Use(router)
 
 	router.GET("/", Home)
 
