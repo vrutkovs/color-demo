@@ -37,4 +37,11 @@ spec:
         - name: TITLE
           value: "dev server"
         resources: {}
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
 ---
