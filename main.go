@@ -32,8 +32,6 @@ func loadAssets(router *gin.Engine) {
 	if len(base_path) == 0 {
 		base_path = "./"
 	}
-	assets_path := filepath.Join(base_path, "assets")
-	router.Static("/assets", assets_path)
 	templates_path := filepath.Join(base_path, "templates")
 	router.LoadHTMLGlob(fmt.Sprintf("%s/*", templates_path))
 }
