@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: colors
+  name: colors
+spec:
+  selector:
+    matchLabels:
+      app: colors
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: colors
+    spec:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
+            labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - colors
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - image: ghcr.io/vrutkovs/color-demo:latest
+        name: colors
+        env:
+        - name: COLOR
+          value: "blue"
+        - name: TITLE
+          value: "dev server"
+        resources: {}
+---
