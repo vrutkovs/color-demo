@@ -17,17 +17,6 @@ spec:
       labels:
         app: colors
     spec:
-      podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 100
-          podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app
-                operator: In
-                values:
-                - colors
-            topologyKey: kubernetes.io/hostname
       containers:
       - image: ghcr.io/vrutkovs/color-demo:latest
         name: colors
