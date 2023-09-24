@@ -1,0 +1,26 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: scaled-deployment
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  scaleTargetRef:
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    name: color-demo
+  maxReplicaCount: 10
+  minReplicaCount: 2
+  pollingInterval: 30
+  triggers:
+  - type: prometheus
+    metadata:
+      serverAddress: https://thanos-querier.openshift-monitoring.svc.cluster.local:9092
+      metricName: haproxy_backend_connections_total
+      threshold: "5"
+      query: sum(rate(haproxy_backend_connections_total{exported_namespace="workload"}[5m]))
+      authModes: "bearer"
+      metricType: Value
+      namespace: workload
+    authenticationRef:
+      name: keda-trigger-auth-prometheus
